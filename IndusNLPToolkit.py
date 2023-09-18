@@ -53,7 +53,7 @@ class Toolkit:
 
   # THis function helps to remove english words and converts numbers to 
   # hindi format from a text
-  def clean_text(self,text):
+  def clean_text(self,text , save_option=0):
     #Tokenize the words first
     tokens = self.word_tokenize(text)
     result = map(self.clean_english,tokens)
@@ -61,6 +61,10 @@ class Toolkit:
     english_numbers = re.findall("[1-9]", text)
     for number in english_numbers:
         text = text.replace(number,self.numbers[int(number)-1])
+    if save_option == 1:
+      with open('saved_cleaned_text.txt','w', encoding='utf-8') as f:
+        f.write(text)
+        print("File saved")
     return text  
 
 
