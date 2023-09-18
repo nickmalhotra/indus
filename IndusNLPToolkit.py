@@ -13,7 +13,6 @@ import nltk
 from nltk.corpus import indian
 from nltk.tag import tnt
 import string
-
 from logging import raiseExceptions
 
 
@@ -43,16 +42,26 @@ class Toolkit:
     self.dir_path = "Data/stopwords/"
 
 
+  def clean_english(self,token):
+    match = re.search("[a-zA-Z]", token)
+    if match:
+      #THis can be transliterated further
+      return '####' 
+    else:
+      return token
+
+
   # THis function helps to remove english words and converts numbers to 
   # hindi format from a text
   def clean_text(self,text):
-    english_text = re.findall("[a-zA-Z]", text)
+    #Tokenize the words first
+    tokens = self.word_tokenize(text)
+    result = map(self.clean_english,tokens)
+    text = ' '.join(token for token in list(result))
     english_numbers = re.findall("[1-9]", text)
-    for char in english_text:
-        text = text.replace(char,"#")
     for number in english_numbers:
         text = text.replace(number,self.numbers[int(number)-1])
-    return (text , english_text)  
+    return text  
 
 
   # THis function helps find stopwords in a language and doalect
@@ -70,7 +79,7 @@ class Toolkit:
       except:
         raise FileNotFoundError("File not found")
     else:
-      print("Sorry! The intended dialet is not available")
+      print("Sorry! The intended dialet and its stopwords is not available")
     return _arrstopwords
 
 
@@ -103,7 +112,6 @@ class Toolkit:
         _sec_sent_list = sentence.split('\n')
         _sent_list.append(_sec_sent_list)
     return _sent_list
-
 
 
   #This funtion provides word freuency

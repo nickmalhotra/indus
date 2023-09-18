@@ -4,7 +4,9 @@ import numpy as np
 from IndusNLPToolkit import Toolkit
 
 ip = Toolkit()
-print(ip.pos_tags("हाय मेरे कोल 10000 स्टिकर न"))
+
+
+print(ip.clean_text("हाय मेरे कोल 10000 Stickers स्टिकर न"))
 
 
 
